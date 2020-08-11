@@ -35,7 +35,7 @@ func TestMultiThreaded(t *testing.T) {
 	for _, tt := range fibTests {
 
 		fibonacciChannel := make(chan big.Int)
-		go calcFibonacciMultithread(tt.n, fibonacciChannel)
+		go calcFibonacciMultithreaded(tt.n, fibonacciChannel)
 		actual := <-fibonacciChannel
 
 		var expectedResult big.Int
@@ -58,7 +58,7 @@ func BenchmarkMultiThreaded(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		for _, tt := range fibTests {
 			fibonacciChannel := make(chan big.Int)
-			go calcFibonacciMultithread(tt.n, fibonacciChannel)
+			go calcFibonacciMultithreaded(tt.n, fibonacciChannel)
 			<-fibonacciChannel
 		}
 	}

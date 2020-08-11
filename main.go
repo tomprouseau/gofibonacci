@@ -15,11 +15,10 @@ func main() {
 	fmt.Println("Calculated number at index " + strconv.Itoa(numberIndex) + " is " + fibonacciNumber.String())
 
 	fibonacciChannel := make(chan big.Int)
+	go calcFibonacciMultithreaded(numberIndex, fibonacciChannel)
+	fibonacciMultithreaded := <-fibonacciChannel
 
-	go calcFibonacciMultithread(numberIndex, fibonacciChannel)
-
-	fibonacciMultithread := <-fibonacciChannel
-	fmt.Println("Calculated number at index " + strconv.Itoa(numberIndex) + " is " + fibonacciMultithread.String())
+	fmt.Println("Calculated number at index " + strconv.Itoa(numberIndex) + " is " + fibonacciMultithreaded.String())
 }
 
 func calcFibonacci(index int) big.Int {
@@ -68,7 +67,7 @@ func calcFibonacci(index int) big.Int {
 	return *returnValue
 }
 
-func calcFibonacciMultithread(index int, c chan big.Int) {
+func calcFibonacciMultithreaded(index int, c chan big.Int) {
 
 	returnValue := big.NewInt(0)
 	if index == 0 {
@@ -83,8 +82,8 @@ func calcFibonacciMultithread(index int, c chan big.Int) {
 			first := make(chan big.Int)
 			second := make(chan big.Int)
 
-			go calcFibonacciMultithread(firstCheck, first)
-			go calcFibonacciMultithread(secondCheck, second)
+			go calcFibonacciMultithreaded(firstCheck, first)
+			go calcFibonacciMultithreaded(secondCheck, second)
 
 			firstFibonacci := <-first
 			secondFibonacci := <-second
@@ -104,8 +103,8 @@ func calcFibonacciMultithread(index int, c chan big.Int) {
 			first := make(chan big.Int)
 			second := make(chan big.Int)
 
-			go calcFibonacciMultithread(firstCheck, first)
-			go calcFibonacciMultithread(secondCheck, second)
+			go calcFibonacciMultithreaded(firstCheck, first)
+			go calcFibonacciMultithreaded(secondCheck, second)
 
 			firstFibonacci := <-first
 			secondFibonacci := <-second
@@ -120,7 +119,6 @@ func calcFibonacciMultithread(index int, c chan big.Int) {
 			total = *total.Add(firstSquared, secondSquared)
 			returnValue = &total
 		}
-
 	}
 
 	c <- *returnValue
