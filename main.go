@@ -22,7 +22,7 @@ func calcFibonacci(index int) big.Int {
 	} else if index == 1 {
 		returnValue = big.NewInt(1)
 	} else {
-		if index == 0 {
+		if index%2 == 0 {
 			firstCheck := index / 2
 			secondCheck := firstCheck - 1
 
