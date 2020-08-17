@@ -5,4 +5,4 @@ Uses Dijkstra's algorithm as described by http://www.maths.surrey.ac.uk/hosted-s
 
 Usage: Takes a single command line parameter (the index of the number in the Fibonacci sequence to be calculated)
 
-I created a multi-threaded version of this function just to see how efficient it is. It takes around an order of magnitude longer than the single-threaded version. 
+I created a multi-threaded version of this function just to see how efficient it is. It takes around 4 times as long as the single-threaded version. 
